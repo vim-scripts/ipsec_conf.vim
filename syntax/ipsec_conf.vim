@@ -3,8 +3,16 @@
 " Maintainer:	Bruce Christensen <bruce@orangatango.net>
 " Email:	Subject: "ipsec.conf syntax"
 " URL:		http://home.attbi.com/~brucec/oss/freeswan/
-" Version:	0.1.0
-" Last change:	2002 Jan 30
+" Version:	0.1.1
+" Last change:	2002 Jun 10
+
+" Changes:
+" 0.1.1:
+"   - Added support for X.509 keywords
+"   - Fixed a bug that caused Vim 6 to eat 100% CPU (thanks to Christian Gall
+"     <cg@cgall.de> for reporting the bug)
+" 0.1.0:
+"   - Original public release
 
 " Bits of this file were stolen from samba.vim
 " This file is current for freeswan-1.91
@@ -38,7 +46,7 @@ syn cluster ipsecSectionName contains=ipsecSectionNameStr,ipsecMacro
 syn match   ipsecSectionNameStr contained /\<[[:alpha:]][[:alnum:]._-]*\>$/
 
 " Lines that make up sections (assignments)
-syn match   ipsecSectionLine contained /^.*$/ contains=ipsecSectionWS,ipsecError,ipsecComment nextgroup=ipsecSectionLine skipnl
+syn match   ipsecSectionLine contained /^..*$/ contains=ipsecSectionWS,ipsecError,ipsecComment nextgroup=ipsecSectionLine skipnl
 syn match   ipsecSectionWS contained /^\s\+/ nextgroup=ipsecParam
 
 " Params valid in all sections
@@ -57,12 +65,17 @@ syn keyword ipsecParam contained nextgroup=ipsecEq rightupdown rightfirewall
 syn keyword ipsecParam contained nextgroup=ipsecEq keyexchange auto auth authby leftid
 syn keyword ipsecParam contained nextgroup=ipsecEq leftrsasigkey pfs keylife rekeymargin
 syn keyword ipsecParam contained nextgroup=ipsecEq rekeyfuzz keyingtries ikelifetime
-syn keyword ipsecParam contained nextgroup=ipsecEq rightid rightrsasigkey
+syn keyword ipsecParam contained nextgroup=ipsecEq rightid rightrsasigkey disablearrivalcheck
+syn keyword ipsecParam contained nextgroup=ipsecEq rekey
                                                    " manual keying
 syn keyword ipsecParam contained nextgroup=ipsecEq spi spibase esp espenckey espauthkey
 syn keyword ipsecParam contained nextgroup=ipsecEq espreplay_window leftespspi ah ahkey
 syn keyword ipsecParam contained nextgroup=ipsecEq ahreplay_window leftahspi
 syn keyword ipsecParam contained nextgroup=ipsecEq rightespspi rightahspi
+                                                   " X.509 patch
+syn keyword ipsecParam contained nextgroup=ipsecEq leftcert rightcert
+syn keyword ipsecParam contained nextgroup=ipsecEq leftsubnetwithin rightsubnetwithin
+syn keyword ipsecParam contained nextgroup=ipsecEq leftprotoport rightprotoport
 
 " Params valid in config sections
 syn keyword ipsecParam contained nextgroup=ipsecEq interfaces forwardcontrol syslog
@@ -72,6 +85,8 @@ syn keyword ipsecParam contained nextgroup=ipsecEq plutowait prepluto
 syn keyword ipsecParam contained nextgroup=ipsecEq postpluto fragicmp packetdefault
 syn keyword ipsecParam contained nextgroup=ipsecEq hidetos uniqueids
 syn keyword ipsecParam contained nextgroup=ipsecEq overridemtu
+                                                   " X.509 patch
+syn keyword ipsecParam contained nextgroup=ipsecEq nocrsend
 
 " Equals sign that separates a param name from its value
 "(includes leading and trailing whitespace)
