@@ -1,0 +1,5 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=312
+
+Highlights keywords, IP addresses, numbers, and strings in FreeS/WAN's (http://www.freeswan.org/) ipsec.conf configuration file.
+
+Somewhat validating: it flags unknown constructs as errors in red.
